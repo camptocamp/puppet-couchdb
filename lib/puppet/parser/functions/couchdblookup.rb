@@ -2,12 +2,12 @@
 # A basic function to retrieve data in couchdb
 #
 
-require 'json'
-require 'open-uri'
 
 module Puppet::Parser::Functions
   newfunction(:couchdblookup, :type => :rvalue) do |args|
-    
+    require 'json'
+    require 'open-uri'
+
     url = args[0]
     key = args[1]
 
