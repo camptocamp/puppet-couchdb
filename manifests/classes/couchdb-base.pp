@@ -7,6 +7,7 @@ class couchdb::base {
   service {"couchdb":
     ensure    => running,
     hasstatus => true,
+    enable    => true,
     require   => Package["couchdb"],
   }
 
