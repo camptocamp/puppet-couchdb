@@ -1,6 +1,6 @@
 class couchdb::base {
 
-  package {["couchdb","libjs-jquery"]:
+  package {"couchdb":
     ensure => present,
   }
 

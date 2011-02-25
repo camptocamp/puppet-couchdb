@@ -7,6 +7,7 @@ class couchdb {
         lenny :  { include couchdb::debian }
         default: { fail "couchdb not available for ${operatingsystem}/${lsbdistcodename}"}
       }
-    } 
+    }
+    RedHat: { include couchdb::redhat } 
   }
 }
