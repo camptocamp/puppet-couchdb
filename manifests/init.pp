@@ -1,13 +1,13 @@
 import "classes/*.pp"
-  
+
 class couchdb {
   case $operatingsystem {
-    Debian: { 
+    Debian: {
       case $lsbdistcodename {
-        lenny :  { include couchdb::debian }
-        default: { fail "couchdb not available for ${operatingsystem}/${lsbdistcodename}"}
+        /lenny|squeeze/: { include couchdb::debian }
+        default:         { fail "couchdb not available for ${operatingsystem}/${lsbdistcodename}"}
       }
     }
-    RedHat: { include couchdb::redhat } 
+    RedHat: { include couchdb::redhat }
   }
 }
