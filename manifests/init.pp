@@ -1,5 +1,3 @@
-import "classes/*.pp"
-
 class couchdb {
   case $operatingsystem {
     Debian: {
