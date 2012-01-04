@@ -70,4 +70,20 @@ describe "the couchdblookup function" do
     result.should raise_error(Puppet::ParseError)
   end
 
+  it "should raise a ParseError if couchdb can't find the requested document" do
+    sample_json = File.open(@datapath + 'missing.txt')
+    OpenURI.stub!(:open_uri).and_return(sample_json)
+
+    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "a-key"]) }
+    result.should raise_error(Puppet::ParseError)
+  end
+
+  it "should raise a ParseError if input in not valid JSON" do
+    sample_json = File.open(@datapath + 'proxy-failure.txt')
+    OpenURI.stub!(:open_uri).and_return(sample_json)
+
+    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "a-key"]) }
+    result.should raise_error(Puppet::ParseError)
+  end
+
 end

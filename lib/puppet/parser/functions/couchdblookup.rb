@@ -15,7 +15,7 @@ module Puppet::Parser::Functions
 
     begin
       json = JSON.parse(open(URI.parse(url)).read)
-    rescue OpenURI::HTTPError => error
+    rescue OpenURI::HTTPError, JSON::ParserError => error
       raise Puppet::ParseError, "couchdblookup(): fetching URL #{url} failed with status #{error.message}"
     end
 
