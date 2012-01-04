@@ -54,4 +54,20 @@ describe "the couchdblookup function" do
     result.should raise_error(Puppet::ParseError)
   end
 
+  it "should return an array the values from a couchdb reduced view" do
+    sample_json = File.open(@datapath + 'map+reduce.txt')
+    OpenURI.stub!(:open_uri).and_return(sample_json)
+
+    result = @scope.function_couchdblookup(["http://fake/uri", "value"])
+    result.should eq(["foo", "bar", "baz"])
+  end
+
+  it "should raise a ParseError if a key can't be found in the rows of a couchdb reduced view" do
+    sample_json = File.open(@datapath + 'map+reduce.txt')
+    OpenURI.stub!(:open_uri).and_return(sample_json)
+
+    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
+    result.should raise_error(Puppet::ParseError)
+  end
+
 end

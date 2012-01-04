@@ -20,15 +20,23 @@ module Puppet::Parser::Functions
     end
 
     result = nil
-    if json.has_key?("rows") and json['total_rows'] > 0 and json['rows'][0].has_key?(key)
-      result = Array.new
-      json['rows'].each do |x|
-        result.push(x[key])
+
+    if json.has_key?("rows")
+
+      if json['rows'].length > 1
+        arr = json['rows'].collect do |x|
+          x[key] if x.is_a?(Hash) and x.has_key?(key)
+        end
+        arr.compact!
+        result = arr unless arr.empty?
+
+      elsif json['rows'].length == 1
+        hash = json['rows'].pop
+        result = hash[key] if hash.is_a?(Hash)
       end
-    else
-      if json.has_key?(key)
-        result = json[key]
-      end
+
+    elsif json.has_key?(key)
+      result = json[key]
     end
 
     result or raise Puppet::ParseError, "couchdblookup(): key '#{key}' not found in JSON object !"
