@@ -19,7 +19,7 @@ class couchdb::backup {
     group   => root,
     mode    => 755,
     content => template("couchdb/couchdb-backup.py.erb"),
-    require => [ File[$couchdb::params::backupdir], Exec["install python-couchdb"] ],
+    require => File[$couchdb::params::backupdir],
   }
 
   cron { "couchdb-backup":
@@ -29,10 +29,10 @@ class couchdb::backup {
     require => File["/usr/local/sbin/couchdb-backup.py"],
   }
 
-  exec {"install python-couchdb":
-    command => "easy_install couchdb",
-    require => Package["python-setuptools"],
-    unless  => "grep -q CouchDB-0.8-py2.5.egg /usr/lib/python2.5/site-packages/easy-install.pth"
+  # note: python-couchdb >= 0.8 required, which is found in debian wheezy.
+  package { ["python-couchdb", "python-simplejson"]:
+    ensure => present,
+    before => File["/usr/local/sbin/couchdb-backup.py"],
   }
 
 }

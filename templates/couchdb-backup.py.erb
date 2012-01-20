@@ -10,7 +10,7 @@ import simplejson
 import couchdb.tools.dump
 from os.path import join
 
-DB_URL="http://<%= bind_address %>:<%= port %>"
+DB_URL="http://127.0.0.1:5984"
 DUMP_DIR="<%= backupdir %>"
 TODAY=datetime.datetime.today().strftime("%A").lower()
 
