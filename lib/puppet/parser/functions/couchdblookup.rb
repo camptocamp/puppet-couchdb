@@ -8,10 +8,11 @@ module Puppet::Parser::Functions
     require 'json'
     require 'open-uri'
 
+    raise Puppet::ParseError, ("couchdblookup(): wrong number of arguments (#{args.length}; must be 2 or 3)") unless args.length.between?(2, 3)
+
     url = args[0]
     key = args[1]
-
-    raise Puppet::ParseError, ("couchdblookup(): wrong number of arguments (#{args.length}; must be == 2)") if args.length != 2
+    default = args[2] if args.length >= 3
 
     begin
       json = JSON.parse(open(URI.parse(url)).read)
@@ -39,7 +40,7 @@ module Puppet::Parser::Functions
       result = json[key]
     end
 
-    result or raise Puppet::ParseError, "couchdblookup(): key '#{key}' not found in JSON object !"
+    result or default or raise Puppet::ParseError, "couchdblookup(): key '#{key}' not found in JSON object !"
 
   end
 end
