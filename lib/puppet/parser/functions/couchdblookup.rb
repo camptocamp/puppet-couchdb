@@ -16,8 +16,16 @@ module Puppet::Parser::Functions
 
     begin
       json = JSON.parse(open(URI.parse(url)).read)
-    rescue OpenURI::HTTPError, JSON::ParserError => error
-      raise Puppet::ParseError, "couchdblookup(): fetching URL #{url} failed with status #{error.message}"
+    rescue OpenURI::HTTPError => error
+      raise Puppet::ParseError, "couchdblookup(): fetching URL #{url} failed with status '#{error.message}'"
+    rescue Timeout::Error => error
+      raise Puppet::ParseError, "couchdblookup(): connection to couchdb server timed out: '#{error.message}'"
+    rescue Errno::ECONNREFUSED => error
+      raise Puppet::ParseError, "couchdblookup(): connection to couchdb server failed: '#{error.message}'"
+    rescue JSON::ParserError => error
+      raise Puppet::ParseError, "couchdblookup(): failed to parse JSON received from couchdb: '#{error.message}'"
+    rescue StandardError => error
+      raise Puppet::ParseError, "couchdblookup(): something unexpected happened: '#{error.inspect}'"
     end
 
     result = nil
