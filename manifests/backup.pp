@@ -9,33 +9,33 @@ class couchdb::backup {
 
   file {$couchdb::params::backupdir:
     ensure  => directory,
-    mode    => 755,
-    require => Package["couchdb"],
+    mode    => '0755',
+    require => Package['couchdb'],
   }
 
-  file { "/usr/local/sbin/couchdb-backup.py":
+  file { '/usr/local/sbin/couchdb-backup.py':
     ensure  => present,
     owner   => root,
     group   => root,
-    mode    => 755,
-    content => template("couchdb/couchdb-backup.py.erb"),
+    mode    => '0755',
+    content => template('couchdb/couchdb-backup.py.erb'),
     require => File[$couchdb::params::backupdir],
   }
 
-  cron { "couchdb-backup":
-    command => "/usr/local/sbin/couchdb-backup.py 2> /dev/null",
+  cron { 'couchdb-backup':
+    command => '/usr/local/sbin/couchdb-backup.py 2> /dev/null',
     hour    => 3,
     minute  => 0,
-    require => File["/usr/local/sbin/couchdb-backup.py"],
+    require => File['/usr/local/sbin/couchdb-backup.py'],
   }
 
 
-  case $operatingsystem {
+  case $::operatingsystem {
     /Debian|Ubunu/: {
       # note: python-couchdb >= 0.8 required, which is found in debian wheezy.
-      package { ["python-couchdb", "python-simplejson"]:
+      package { ['python-couchdb', 'python-simplejson']:
         ensure => present,
-        before => File["/usr/local/sbin/couchdb-backup.py"],
+        before => File['/usr/local/sbin/couchdb-backup.py'],
       }
     }
     /RedHat|Centos/: {
