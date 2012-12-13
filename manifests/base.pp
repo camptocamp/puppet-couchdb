@@ -1,14 +1,14 @@
 class couchdb::base {
 
-  package {"couchdb":
+  package {'couchdb':
     ensure => present,
   }
 
-  service {"couchdb":
+  service {'couchdb':
     ensure    => running,
     hasstatus => true,
     enable    => true,
-    require   => Package["couchdb"],
+    require   => Package['couchdb'],
   }
 
 }

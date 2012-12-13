@@ -1,7 +1,7 @@
 class couchdb::debian inherits couchdb::base {
 
-  package {"libjs-jquery":
+  package {'libjs-jquery':
     ensure => present,
   }
-  
+
 }
