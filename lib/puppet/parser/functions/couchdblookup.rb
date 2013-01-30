@@ -48,7 +48,11 @@ module Puppet::Parser::Functions
       result = json[key]
     end
 
-    result or default or raise Puppet::ParseError, "couchdblookup(): key '#{key}' not found in JSON object !"
+    if result.nil?
+      default or raise Puppet::ParseError, "couchdblookup(): key '#{key}' '#{result}' not found in JSON object !"
+    else
+      result
+    end
 
   end
 end
