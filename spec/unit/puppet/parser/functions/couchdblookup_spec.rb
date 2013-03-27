@@ -32,9 +32,17 @@ describe "the couchdblookup function" do
   end
 
   it "should raise a ParseError unless there is exactly 2 arguments" do
-    lambda { @scope.function_couchdblookup([]) }.should       raise_error(Puppet::ParseError)
-    lambda { @scope.function_couchdblookup([1]) }.should      raise_error(Puppet::ParseError)
-    lambda { @scope.function_couchdblookup([1,2,3]) }.should  raise_error(Puppet::ParseError)
+    lambda {
+      @scope.function_couchdblookup([])
+    }.should      raise_error(Puppet::ParseError, /wrong number of arguments/)
+
+    lambda {
+      @scope.function_couchdblookup([1])
+    }.should      raise_error(Puppet::ParseError, /wrong number of arguments/)
+
+    lambda {
+      @scope.function_couchdblookup([1,2,3])
+   }.should       raise_error(Puppet::ParseError, /wrong number of arguments/)
   end
 
   it "should return the value of a key from a single couchdb document" do
@@ -50,7 +58,7 @@ describe "the couchdblookup function" do
     openuri.stubs(:open_uri).returns(sample_json)
 
     result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
-    result.should raise_error(Puppet::ParseError)
+    result.should raise_error(Puppet::ParseError, /not found in JSON object/)
   end
 
   it "should return an array from the values of a couchdb view" do
@@ -66,7 +74,7 @@ describe "the couchdblookup function" do
     openuri.stubs(:open_uri).returns(sample_json)
 
     result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
-    result.should raise_error(Puppet::ParseError)
+    result.should raise_error(Puppet::ParseError, /not found in JSON object/)
   end
 
   it "should return an array the values from a couchdb reduced view" do
@@ -82,7 +90,7 @@ describe "the couchdblookup function" do
     openuri.stubs(:open_uri).returns(sample_json)
 
     result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
-    result.should raise_error(Puppet::ParseError)
+    result.should raise_error(Puppet::ParseError, /not found in JSON object/)
   end
 
   it "should raise a ParseError if couchdb can't find the requested document" do
@@ -90,7 +98,7 @@ describe "the couchdblookup function" do
     openuri.stubs(:open_uri).returns(sample_json)
 
     result = lambda { @scope.function_couchdblookup(["http://fake/uri", "a-key"]) }
-    result.should raise_error(Puppet::ParseError)
+    result.should raise_error(Puppet::ParseError, /not found in JSON object/)
   end
 
   it "should raise a ParseError if input in not valid JSON" do
@@ -98,7 +106,7 @@ describe "the couchdblookup function" do
     openuri.stubs(:open_uri).returns(sample_json)
 
     result = lambda { @scope.function_couchdblookup(["http://fake/uri", "a-key"]) }
-    result.should raise_error(Puppet::ParseError)
+    result.should raise_error(Puppet::ParseError, /failed to parse JSON/)
   end
 
   it "should always return undef if 'vagrantbox' fact is defined" do
