@@ -75,7 +75,7 @@ describe "the couchdblookup function" do
     sample_json = File.open(@datapath + 'one-document.txt')
     openuri.stubs(:open_uri).returns(sample_json)
 
-    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
+    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "invalid-key"]) }
     result.should raise_error(Puppet::ParseError, /not found in JSON object/)
   end
 
@@ -83,7 +83,7 @@ describe "the couchdblookup function" do
     sample_json = File.open(@datapath + 'one-document.txt')
     openuri.stubs(:open_uri).returns(sample_json)
 
-    result = @scope.function_couchdblookup(["http://fake/uri", "fake-key", "3rd arg"])
+    result = @scope.function_couchdblookup(["http://fake/uri", "invalid-key", "3rd arg"])
     result.should eq('3rd arg')
   end
 
@@ -108,7 +108,7 @@ describe "the couchdblookup function" do
     sample_json = File.open(@datapath + 'map.txt')
     openuri.stubs(:open_uri).returns(sample_json)
 
-    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
+    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "invalid-key"]) }
     result.should raise_error(Puppet::ParseError, /not found in JSON object/)
   end
 
@@ -124,7 +124,7 @@ describe "the couchdblookup function" do
     sample_json = File.open(@datapath + 'map+reduce.txt')
     openuri.stubs(:open_uri).returns(sample_json)
 
-    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
+    result = lambda { @scope.function_couchdblookup(["http://fake/uri", "invalid-key"]) }
     result.should raise_error(Puppet::ParseError, /not found in JSON object/)
   end
 
