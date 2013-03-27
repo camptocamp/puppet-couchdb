@@ -144,10 +144,16 @@ describe "the couchdblookup function" do
     result.should raise_error(Puppet::ParseError, /failed to parse JSON/)
   end
 
-  it "should always return undef if 'vagrantbox' fact is defined" do
+  it "should return undef if 'vagrantbox' fact is defined" do
     scope.stubs(:lookupvar).with('vagrantbox').returns('true')
 
     subject.call(["http://fake/uri", "value"]).should eq(:undef)
+  end
+
+  it "should return the value passed as 3rd argument when 'vagrantbox' fact is defined" do
+    scope.stubs(:lookupvar).with('vagrantbox').returns('true')
+
+    subject.call(["http://fake/uri", "value", "3rd arg"]).should eq('3rd arg')
   end
 
 end
