@@ -1,10 +1,29 @@
 #
-# A basic function to retrieve data in couchdb
+# NB: this function has tests. If you change something, please also update
+# spec/unit/puppet/parser/functions/couchdblookup_spec.rb
+#
+# You can run the tests with "rake spec"
 #
 
-
 module Puppet::Parser::Functions
-  newfunction(:couchdblookup, :type => :rvalue) do |args|
+  newfunction(:couchdblookup, :type => :rvalue, :doc => <<-EOS
+*Retrieve values from couchdb*
+
+Takes a CouchDB URL and a key as argument, and returns the value. If the key
+isn't found, it will return a parse error, or the value specified in the
+optional 3rd argument.
+
+*Example:*
+
+    $couchdburl = 'http://localhost:5984/users'
+    couchdblookup("${couchdburl}/joe", 'ssh_pubkey')
+    couchdblookup("${couchdburl}/bob", 'ssh_pubkey', 'invalid-key')
+
+If the "vagrantbox" fact is set, it will always return "undef" (assuming the
+couchdb server is unreachable from inside a vagrant box).
+
+  EOS
+  ) do |args|
     require 'json'
     require 'open-uri'
 
