@@ -61,6 +61,16 @@ describe "the couchdblookup function" do
     result.should eq(true)
   end
 
+  it "should return false if the value in the JSON doc is false" do
+    sample_json = File.open(@datapath + 'one-document.txt')
+    openuri.stubs(:open_uri).returns(sample_json)
+
+    result = @scope.function_couchdblookup(["http://fake/uri", "rt"])
+    result.should eq(false)
+    result.should_not eq(nil)
+    lambda { result }.should_not raise_error(Puppet::ParseError, /not found in JSON object/)
+  end
+
   it "should raise a ParseError if a key can't be found in a couchdb document" do
     sample_json = File.open(@datapath + 'one-document.txt')
     openuri.stubs(:open_uri).returns(sample_json)
