@@ -20,7 +20,7 @@ describe "the couchdblookup function" do
 
   before :all do
     Puppet::Parser::Functions.autoloader.loadall
-    @datapath = File.dirname(__FILE__) + '/../../../data/'
+    @datapath = File.dirname(__FILE__) + '/../../../../fixtures/files/'
   end
 
   before :each do
