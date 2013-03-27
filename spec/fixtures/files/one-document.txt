@@ -1,0 +1,1 @@
+{"_id":"foobar","_rev":"1-1750d8614a19943f36b545e7c5549503","wiki":true,"rt":false,"svn":true,"dav":null}
