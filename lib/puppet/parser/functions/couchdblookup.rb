@@ -34,6 +34,7 @@ couchdb server is unreachable from inside a vagrant box).
     default = args[2] if args.length >= 3
 
     if lookupvar('vagrantbox') != :undefined
+      Puppet.send(:warning, "Bypassing couchdb lookup because 'vagrantbox' fact is defined. couchdblookup() will not return what you expect !")
       return default ? default : :undef
     end
 
