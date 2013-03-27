@@ -10,6 +10,8 @@ module Puppet::Parser::Functions
 
     raise Puppet::ParseError, ("couchdblookup(): wrong number of arguments (#{args.length}; must be 2 or 3)") unless args.length.between?(2, 3)
 
+    return :undef unless lookupvar('vagrantbox') == :undefined
+
     url = args[0]
     key = args[1]
     default = args[2] if args.length >= 3

@@ -5,6 +5,15 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 
 describe "the couchdblookup function" do
 
+  let(:scope) do
+    PuppetlabsSpec::PuppetInternals.scope
+  end
+
+  subject do
+    function_name = Puppet::Parser::Functions.function(:couchdblookup)
+    scope.method(function_name)
+  end
+
   let(:openuri) do
     OpenURI
   end
@@ -90,6 +99,12 @@ describe "the couchdblookup function" do
 
     result = lambda { @scope.function_couchdblookup(["http://fake/uri", "a-key"]) }
     result.should raise_error(Puppet::ParseError)
+  end
+
+  it "should always return undef if 'vagrantbox' fact is defined" do
+    scope.stubs(:lookupvar).with('vagrantbox').returns('true')
+
+    subject.call(["http://fake/uri", "value"]).should eq(:undef)
   end
 
 end
