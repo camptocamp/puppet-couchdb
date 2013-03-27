@@ -31,7 +31,7 @@ describe "the couchdblookup function" do
     Puppet::Parser::Functions.function("couchdblookup").should == "function_couchdblookup"
   end
 
-  it "should raise a ParseError unless there is exactly 2 arguments" do
+  it "should raise a ParseError unless there is 2 or 3 arguments" do
     lambda {
       @scope.function_couchdblookup([])
     }.should      raise_error(Puppet::ParseError, /wrong number of arguments/)
@@ -41,7 +41,15 @@ describe "the couchdblookup function" do
     }.should      raise_error(Puppet::ParseError, /wrong number of arguments/)
 
     lambda {
+      @scope.function_couchdblookup([1,2])
+   }.should_not   raise_error(Puppet::ParseError, /wrong number of arguments/)
+
+    lambda {
       @scope.function_couchdblookup([1,2,3])
+   }.should_not   raise_error(Puppet::ParseError, /wrong number of arguments/)
+
+    lambda {
+      @scope.function_couchdblookup([1,2,3,4])
    }.should       raise_error(Puppet::ParseError, /wrong number of arguments/)
   end
 
@@ -59,6 +67,23 @@ describe "the couchdblookup function" do
 
     result = lambda { @scope.function_couchdblookup(["http://fake/uri", "fake-key"]) }
     result.should raise_error(Puppet::ParseError, /not found in JSON object/)
+  end
+
+  it "should return the value passed as 3rd argument when the key is not found" do
+    sample_json = File.open(@datapath + 'one-document.txt')
+    openuri.stubs(:open_uri).returns(sample_json)
+
+    result = @scope.function_couchdblookup(["http://fake/uri", "fake-key", "3rd arg"])
+    result.should eq('3rd arg')
+  end
+
+  it "should not return the value passed as 3rd argument when the key is found" do
+    sample_json = File.open(@datapath + 'one-document.txt')
+    openuri.stubs(:open_uri).returns(sample_json)
+
+    result = @scope.function_couchdblookup(["http://fake/uri", "wiki", "3rd arg"])
+    result.should eq(true)
+    result.should_not eq('3rd arg')
   end
 
   it "should return an array from the values of a couchdb view" do
