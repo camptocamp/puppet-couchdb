@@ -29,21 +29,18 @@ class couchdb::backup {
     require => File['/usr/local/sbin/couchdb-backup.py'],
   }
 
-
   case $::operatingsystem {
     /Debian|Ubunu/: {
-      # note: python-couchdb >= 0.8 required, which is found in debian wheezy.
-      package { ['python-couchdb', 'python-simplejson']:
-        ensure => present,
-        before => File['/usr/local/sbin/couchdb-backup.py'],
-      }
+      include python::package::couchdb
+      include python::package::simplejson
     }
     /RedHat|Centos/: {
-      exec {'install python-couchdb using easy_install':
-        command => 'easy_install http://pypi.python.org/packages/2.6/C/CouchDB/CouchDB-0.8-py2.6.egg',
-        creates => '/usr/lib/python2.6/site-packages/CouchDB-0.8-py2.6.egg',
-      }
+      include python::pip::couchdb
+      include python::package::simplejson
     }
   }
+
+  Package <| alias == 'python-couchdb'    |>
+  Package <| alias == 'python-simplejson' |>
 
 }
