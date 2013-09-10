@@ -73,7 +73,7 @@ couchdb server is unreachable from inside a vagrant box).
     end
 
     if result.nil?
-      default or raise Puppet::ParseError, "couchdblookup(): key '#{key}' '#{result}' not found in JSON object !"
+      default or raise Puppet::ParseError, "couchdblookup(): key '#{key}' '#{result}' not found in JSON object at '#{url}' !"
     else
       result
     end
