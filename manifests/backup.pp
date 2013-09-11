@@ -1,13 +1,14 @@
 class couchdb::backup {
 
-  include couchdb::params
-
   # used in ERB templates
-  $bind_address = $couchdb::params::bind_address
-  $port = $couchdb::params::port
-  $backupdir = $couchdb::params::backupdir
+  $bind_address = $couchdb::bind_address
+  validate_re($bind_address, '^\S+$')
+  $port = $couchdb::port
+  validate_re($port, '^[0-9]+$')
+  $backupdir = $couchdb::backupdir
+  validate_absolute_path($backupdir)
 
-  file {$couchdb::params::backupdir:
+  file {$backupdir:
     ensure  => directory,
     mode    => '0755',
     require => Package['couchdb'],
@@ -19,7 +20,7 @@ class couchdb::backup {
     group   => root,
     mode    => '0755',
     content => template('couchdb/couchdb-backup.py.erb'),
-    require => File[$couchdb::params::backupdir],
+    require => File[$backupdir],
   }
 
   cron { 'couchdb-backup':
@@ -29,14 +30,14 @@ class couchdb::backup {
     require => File['/usr/local/sbin/couchdb-backup.py'],
   }
 
-  case $::operatingsystem {
-    /Debian|Ubunu/: {
-      include python::package::couchdb
-      include python::package::simplejson
+  case $::osfamily {
+    'Debian': {
+      include ::python::package::couchdb
+      include ::python::package::simplejson
     }
-    /RedHat|Centos/: {
-      include python::pip::couchdb
-      include python::package::simplejson
+    'RedHat': {
+      include ::python::pip::couchdb
+      include ::python::package::simplejson
     }
   }
 

@@ -1,1 +1,3 @@
-class couchdb::redhat inherits couchdb::base {}
+class couchdb::redhat {
+  include ::couchdb::base
+}
