@@ -1,5 +1,7 @@
 class couchdb::backup {
 
+  include ::couchdb
+
   # used in ERB templates
   $bind_address = $couchdb::bind_address
   validate_re($bind_address, '^\S+$')
