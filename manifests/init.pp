@@ -1,7 +1,7 @@
 class couchdb (
-  $bind_address = $couchdb::bind_address,
-  $port = $couchdb::port,
-  $backupdir = $couchdb::backupdir,
+  $bind_address = $couchdb::params::bind_address,
+  $port = $couchdb::params::port,
+  $backupdir = $couchdb::params::backupdir,
 ) inherits ::couchdb::params {
 
   case $::operatingsystem {
