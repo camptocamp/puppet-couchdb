@@ -10,9 +10,6 @@ class couchdb::params {
     default => $::couchdb_port,
   }
 
-  $backupdir = $::couchdb_backupdir ? {
-    ''      => '/var/backups/couchdb',
-    default => $::couchdb_backupdir,
-  }
+  $backupdir = '/var/backups/couchdb'
 
 }
