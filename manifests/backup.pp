@@ -39,6 +39,9 @@ class couchdb::backup {
       include ::python::pip::couchdb
       include ::python::package::simplejson
     }
+    default: {
+      fail "Unsupported Operating System family: ${::osfamily}"
+    }
   }
 
   Package <| alias == 'python-couchdb'    |>
