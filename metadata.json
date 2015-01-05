@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Camptocamp",
   "summary": "Puppet Couchdb module",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/camptocamp/puppet-couchdb",
   "project_page": "https://github.com/camptocamp/puppet-couchdb",
   "issues_url": "https://github.com/camptocamp/puppet-couchdb/issues",
