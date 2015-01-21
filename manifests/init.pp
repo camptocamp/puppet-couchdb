@@ -5,17 +5,8 @@ class couchdb (
 ) inherits ::couchdb::params {
 
   case $::osfamily {
-    'Debian': {
-      case $::lsbdistcodename {
-        /lenny|squeeze|wheezy/: { include ::couchdb::debian }
-        default: {
-          fail(
-            "couchdb unavailable for ${::operatingsystem}/${::lsbdistcodename}"
-          )
-        }
-      }
-    }
-    'RedHat':  { include ::couchdb::redhat }
-    default: { fail "couchdb not available for ${::operatingsystem}" }
+    'Debian': { include ::couchdb::debian }
+    'RedHat': { include ::couchdb::redhat }
+    default:  { fail "couchdb not available for ${::operatingsystem}" }
   }
 }
