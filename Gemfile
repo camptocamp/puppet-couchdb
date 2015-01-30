@@ -12,6 +12,7 @@ group :development, :unit_tests do
   gem 'puppet-lint-absolute_classname-check',              :require => false
   gem 'simplecov',                                         :require => false
   gem 'rspec-puppet-facts',                                :require => false
+  gem 'rspec-mocks',                                       :require => false
   gem 'json',                                              :require => false
   gem 'metadata-json-lint',                                :require => false
 end
