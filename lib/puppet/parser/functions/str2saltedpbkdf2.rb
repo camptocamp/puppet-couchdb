@@ -15,12 +15,12 @@ you will get a pbkdf2 password hash to use as a password for CouchDB.
     key_length = args[2]
     iterations = args[3]
 
-    salt = OpenSSL::Random.random_bytes(salt_length).unpack('H*')[0]
+    salt = OpenSSL::Random.random_bytes(salt_length.to_i).unpack('H*')[0]
     hash = OpenSSL::PKCS5.pbkdf2_hmac_sha1(
       password,
       salt,
-      iterations, 
-      key_length
+      iterations.to_i,
+      key_length.to_i
     ).unpack('H*')[0]
     "-pbkdf2-#{hash},#{salt},#{iterations}"
   end

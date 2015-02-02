@@ -1,0 +1,48 @@
+##########################################
+#   This file is managed by puppet       #
+#   ANY CHANGES COULD BE OVERWRITTEN     #
+##########################################
+
+; CouchDB Configuration Settings
+
+; Custom settings should be made in this file. They will override settings
+; in default.ini, but unlike changes made to default.ini, this file won't be
+; overwritten on server upgrade.
+
+[couchdb]
+delayed_commits = false
+database_dir = <%= @database_dir %>
+
+[httpd]
+secure_rewrites = false
+
+[couch_httpd_auth]
+<% if @public_fields -%>
+<%= "public_fields = #{@public_fields}" %>
+<% end -%>
+users_db_public = <%= @users_db_public %>
+
+[log]
+;level = debug
+
+
+; To enable Virtual Hosts in CouchDB, add a vhost = path directive. All requests to
+; the Virual Host will be redirected to the path. In the example below all requests
+; to http://example.com/ are redirected to /database.
+; If you run CouchDB on a specific port, include the port number in the vhost:
+; example.com:5984 = /database
+
+[vhosts]
+;example.com = /database/
+
+[update_notification]
+;unique notifier name=/full/path/to/exe -with "cmd line arg"
+
+; To create an admin account uncomment the '[admins]' section below and add a
+; line in the format 'username = password'. When you next start CouchDB, it
+; will change the password to a hash (so that your passwords don't linger
+; around in plain-text files). You can add more admin accounts with more
+; 'username = password' lines. Don't forget to restart CouchDB after
+; changing this.
+[admins]
+<%= @admin_username %> = <%= @hashed_admin_password %>
