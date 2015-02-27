@@ -15,7 +15,7 @@ class couchdb::backup {
   }
 
   file { '/usr/local/sbin/couchdb-backup.py':
-    ensure  => present,
+    ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0755',
