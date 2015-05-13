@@ -1,6 +1,6 @@
 {
   "name": "camptocamp-couchdb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Camptocamp",
   "summary": "Puppet Couchdb module",
   "license": "Apache-2.0",
