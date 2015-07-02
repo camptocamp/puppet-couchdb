@@ -1,3 +1,7 @@
+## 2015-07-02 - Release 1.0.9
+
+Make couchdblookup() work with parser=future and strict_variables
+
 ## 2015-06-26 - Release 1.0.8
 
 Fix strict_variables activation with rspec-puppet 2.2
