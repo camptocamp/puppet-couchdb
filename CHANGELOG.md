@@ -1,3 +1,7 @@
+## 2015-08-21 - Release 1.0.10
+
+Use docker for acceptance tests
+
 ## 2015-07-02 - Release 1.0.9
 
 Make couchdblookup() work with parser=future and strict_variables
