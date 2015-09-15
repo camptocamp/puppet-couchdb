@@ -1,5 +1,8 @@
 class couchdb::backup {
 
+  require couchdb
+  require python
+
   # used in ERB templates
   $bind_address = $couchdb::bind_address
   validate_re($bind_address, '^\S+$')
@@ -7,6 +10,16 @@ class couchdb::backup {
   validate_re($port, '^[0-9]+$')
   $backupdir = $couchdb::backupdir
   validate_absolute_path($backupdir)
+
+  $admin_user = $couchdb::admin_password ? {
+    undef => 'None',
+    default => "'admin'",
+  }
+
+  $admin_password = $couchdb::admin_password ? {
+    undef => 'None',
+    default => "'$couchdb::admin_password'",
+  }
 
   file {$backupdir:
     ensure  => directory,
@@ -30,21 +43,8 @@ class couchdb::backup {
     require => File['/usr/local/sbin/couchdb-backup.py'],
   }
 
-  case $::osfamily {
-    'Debian': {
-      include ::python::package::couchdb
-      include ::python::package::simplejson
-    }
-    'RedHat': {
-      include ::python::pip::couchdb
-      include ::python::package::simplejson
-    }
-    default: {
-      fail "Unsupported Operating System family: ${::osfamily}"
-    }
+  python::pip { ['couchdb', 'simplejson']:
+    proxy => hiera('https_proxy'),
   }
-
-  Package <| alias == 'python-couchdb'    |>
-  Package <| alias == 'python-simplejson' |>
 
 }
