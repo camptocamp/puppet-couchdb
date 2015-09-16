@@ -4,11 +4,8 @@
 #
 # Parameters:
 #
-# [* users_db_public *]
-#   Set this to true to allow all users to view user documents
-#
 # [* public_fields *]
-#   World-viewable user document fields (requires setting users_db_public option to true)
+#   World-viewable user document fields (sets also the users_db_public option to true)
 #
 # [* admin_username *]
 #   The admin username to be configured for CouchDB
@@ -23,7 +20,6 @@
 #   Set this to the name of the realm that CouchDB should output when sending the unauthorized response.
 #
 class couchdb::config(
-  $users_db_public = undef,
   $public_fields = undef,
   $admin_username = $couchdb::params::admin_username,
   $admin_password = $couchdb::params::admin_password,
@@ -35,6 +31,11 @@ class couchdb::config(
   $key_length = 20
   $iterations = 10
   $hashed_admin_password = str2saltedpbkdf2($admin_password, $salt, $key_length, $iterations)
+
+  $users_db_public = $public_fields ? {
+    undef   => undef,
+    default => true,
+  }
 
   augeas { 'couchdb.local.ini':
     require => Package[couchdb],
