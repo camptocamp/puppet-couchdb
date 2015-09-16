@@ -4,9 +4,12 @@
 #
 class couchdb::config {
 
-  $salt = 20
+  $salt = $couchdb::salt ? {
+    undef   => 20,
+    default => $couchdb::salt,
+  }
   $key_length = 20
-  $iterations = 10
+  $iterations = 200
   $hashed_admin_password = str2saltedpbkdf2($couchdb::admin_password, $salt, $key_length, $iterations)
 
   $users_db_public = $couchdb::public_fields ? {

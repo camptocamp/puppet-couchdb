@@ -26,6 +26,7 @@ class couchdb (
   $public_fields = $couchdb::params::public_fields,
   $admin_username = $couchdb::params::admin_username,
   $admin_password = $couchdb::params::admin_password,
+  $salt = $couchdb::params::salt,
   $require_valid_user = $couchdb::params::require_valid_user,
   $authentication_realm = $couchdb::params::authentication_realm,
 ) inherits ::couchdb::params {

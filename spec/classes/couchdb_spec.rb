@@ -13,6 +13,7 @@ describe 'couchdb' do
           :couchdb_require_valid_user   => false,
           :couchdb_authentication_realm => '',
           :couchdb_public_fields        => '',
+          :couchdb_salt                 => '',
         })
       end
 

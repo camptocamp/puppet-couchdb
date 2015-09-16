@@ -37,4 +37,9 @@ class couchdb::params {
     default => $::couchdb_public_fields,
   }
 
+  $salt = $::couchdb_salt ? {
+    ''      => undef,
+    default => $::couchdb_salt,
+  }
+
 }
