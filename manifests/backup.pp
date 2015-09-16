@@ -27,13 +27,19 @@ class couchdb::backup {
     require => Package['couchdb'],
   }
 
+  $password_set = $couchdb::admin_password ? {
+    undef   => true,
+    default => false,
+  }
+
   file { '/usr/local/sbin/couchdb-backup.py':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    content => template('couchdb/couchdb-backup.py.erb'),
-    require => File[$backupdir],
+    ensure    => file,
+    owner     => root,
+    group     => root,
+    mode      => '0755',
+    content   => template('couchdb/couchdb-backup.py.erb'),
+    show_diff => $password_set,
+    require   => File[$backupdir],
   }
 
   cron { 'couchdb-backup':
