@@ -18,7 +18,7 @@ class couchdb::backup {
 
   $admin_password = $couchdb::admin_password ? {
     undef => 'None',
-    default => "'$couchdb::admin_password'",
+    default => "'${couchdb::admin_password}'",
   }
 
   file {$backupdir:
