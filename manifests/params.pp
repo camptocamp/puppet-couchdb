@@ -12,18 +12,23 @@ class couchdb::params {
 
   $backupdir = '/var/local/couchdb-backups'
 
+  $admin_username = $::couchdb_admin_username ? {
+    ''      => undef,
+    default => $::couchdb_admin_username,
+  }
+
   $admin_password = $::couchdb_admin_password ? {
-    '' => undef,
+    ''      => undef,
     default => $::couchdb_admin_password,
   }
 
   $require_valid_user = $::couchdb_require_valid_user ? {
-    '' => false,
+    ''      => false,
     default => $::couchdb_require_valid_user,
   }
 
   $authentication_realm = $::couchdb_authentication_realm ? {
-    '' => undef,
+    ''      => undef,
     default => $::couchdb_authentication_realm,
   }
 
