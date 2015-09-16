@@ -8,6 +8,9 @@ describe 'couchdb' do
         facts.merge({
           :couchdb_bind_address => '0.0.0.0',
           :couchdb_port         => 5984,
+          :couchdb_admin_password => '',
+          :couchdb_require_valid_user => false,
+          :couchdb_authentication_realm => '',
         })
       end
 
