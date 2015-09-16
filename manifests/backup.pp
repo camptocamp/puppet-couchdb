@@ -11,14 +11,14 @@ class couchdb::backup {
   $backupdir = $couchdb::backupdir
   validate_absolute_path($backupdir)
 
-  $admin_user = $couchdb::config::admin_username ? {
+  $admin_user = $couchdb::admin_username ? {
     undef => 'None',
-    default => "'${couchdb::config::admin_username}'",
+    default => "'${couchdb::admin_username}'",
   }
 
-  $admin_password = $couchdb::config::admin_password ? {
+  $admin_password = $couchdb::admin_password ? {
     undef => 'None',
-    default => "'${couchdb::config::admin_password}'",
+    default => "'${couchdb::admin_password}'",
   }
 
   file {$backupdir:

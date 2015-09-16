@@ -32,4 +32,9 @@ class couchdb::params {
     default => $::couchdb_authentication_realm,
   }
 
+  $public_fields = $::couchdb_public_fields ? {
+    ''      => undef,
+    default => $::couchdb_public_fields,
+  }
+
 }
