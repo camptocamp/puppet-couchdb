@@ -4,6 +4,15 @@
 #
 # Parameters:
 #
+# [* bind_address *]
+#   The address to let the couchdb service bind to.
+#
+# [* port *]
+#   The port to let couchdb listen to.
+#
+# [* backupdir *]
+#   The directory where to put the couchdb backups into. (Make sure the parent directory exists)
+#
 # [* public_fields *]
 #   World-viewable user document fields (sets also the users_db_public option to true)
 #
@@ -12,6 +21,9 @@
 #
 # [* admin_password *]
 #   The password in plaintext to be used by CouchDB
+#
+# [* salt *]
+#   The salt to use for the password hash in the local.ini (prevents changing the hash on every run) 
 #
 # [* require_valid_user *]
 #   Set this to true to only enable authenticated requests to the CouchDB
