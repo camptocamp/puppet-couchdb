@@ -1,3 +1,7 @@
+## 2016-02-11 - Release 1.0.11
+
+Fix params.pp for strict_variables is set
+
 ## 2015-08-21 - Release 1.0.10
 
 Use docker for acceptance tests
