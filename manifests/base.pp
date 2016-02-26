@@ -11,4 +11,5 @@ class couchdb::base {
     require   => Package['couchdb'],
   }
 
+  include ::couchdb::config
 }
