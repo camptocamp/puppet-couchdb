@@ -1,6 +1,11 @@
 =======================
 Couchdb Puppet module
 =======================
+:Overview:
+   Installs CouchDB for Debian and RedHat systems
+
+:Usage:
+   include ::couchdb
 
 This module is provided to you by Camptocamp_.
 
