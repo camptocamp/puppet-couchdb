@@ -10,7 +10,7 @@ import simplejson
 import couchdb.tools.dump
 from os.path import join
 
-DB_URL="http://127.0.0.1:5984"
+DB_URL="http://<%= @bind_address %>:<%= @port %>"
 DUMP_DIR="<%= @backupdir %>"
 TODAY=datetime.datetime.today().strftime("%A").lower()
 
@@ -23,7 +23,7 @@ databases = simplejson.load(urllib2.urlopen("%s/_all_dbs" % DB_URL))
 for db in databases:
   db_file = os.path.join(DUMP_DIR,"%s.gz" % db)
   f = gzip.open(db_file, 'wb')
-  couchdb.tools.dump.dump_db(os.path.join(DB_URL,db), output=f)
+  couchdb.tools.dump.dump_db(os.path.join(DB_URL,db), output=f, username=<%= @admin_user %>, password=<%= @admin_password %>)
   f.close()
   tar.add(db_file,"%s.gz" % db)
   os.remove(db_file)
