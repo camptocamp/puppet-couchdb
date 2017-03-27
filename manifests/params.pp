@@ -20,4 +20,7 @@ class couchdb::params {
 
   $backupdir = '/var/backups/couchdb'
 
+  $service_enable = true
+
+  $service_ensure = 'running'
 }
