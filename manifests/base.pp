@@ -7,9 +7,15 @@ class couchdb::base (
     ensure => present,
   }
 
+  if $service_ensure == 'unmanaged' {
+    $_service_ensure = undef
+  } else {
+    $_service_ensure = $service_ensure
+  }
+
   service {'couchdb':
     enable    => $service_enable,
-    ensure    => $service_ensure,
+    ensure    => $_service_ensure,
     hasstatus => true,
     require   => Package['couchdb'],
   }
