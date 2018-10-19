@@ -1,3 +1,6 @@
 class couchdb::redhat {
-  include ::couchdb::base
+  class { '::couchdb::base':
+    service_ensure => $service_ensure,
+    service_enable => $service_enable,
+  }
 }
